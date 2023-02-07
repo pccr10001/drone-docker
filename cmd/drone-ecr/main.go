@@ -36,6 +36,7 @@ func main() {
 		region           = getenv("PLUGIN_REGION", "ECR_REGION", "AWS_REGION")
 		key              = getenv("PLUGIN_ACCESS_KEY", "ECR_ACCESS_KEY", "AWS_ACCESS_KEY_ID")
 		secret           = getenv("PLUGIN_SECRET_KEY", "ECR_SECRET_KEY", "AWS_SECRET_ACCESS_KEY")
+		sessionToken     = getenv("PLUGIN_SESSION_TOKEN", "ECR_SESSION_TOKEN", "AWS_SESSION_TOKEN")
 		create           = parseBoolOrDefault(false, getenv("PLUGIN_CREATE_REPOSITORY", "ECR_CREATE_REPOSITORY"))
 		lifecyclePolicy  = getenv("PLUGIN_LIFECYCLE_POLICY")
 		repositoryPolicy = getenv("PLUGIN_REPOSITORY_POLICY")
@@ -54,6 +55,10 @@ func main() {
 	if key != "" && secret != "" {
 		os.Setenv("AWS_ACCESS_KEY_ID", key)
 		os.Setenv("AWS_SECRET_ACCESS_KEY", secret)
+	}
+
+	if sessionToken != "" {
+		os.Setenv("AWS_SESSION_TOKEN", sessionToken)
 	}
 
 	sess, err := session.NewSession(&aws.Config{Region: &region})
